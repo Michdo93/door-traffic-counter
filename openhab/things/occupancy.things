@@ -1,0 +1,15 @@
+Bridge mqtt:broker:myMqttBroker "MQTT Broker" [ 
+    host="localhost", 
+    port=1883, 
+    secure=false 
+] {
+    Thing topic door1Counter "Door 1 Counter" {
+        Channels:
+            Type number : change "Door 1 Count Change" [ stateTopic="smarthome/door1/event", transformationPattern="JSONPATH:$.change" ]
+    }
+
+    Thing topic door2Counter "Door 2 Counter" {
+        Channels:
+            Type number : change "Door 2 Count Change" [ stateTopic="smarthome/door2/event", transformationPattern="JSONPATH:$.change" ]
+    }
+}
