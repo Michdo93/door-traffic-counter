@@ -1,0 +1,41 @@
+rule "Door Counter State Aggregator"
+when
+    Item Door1_Change_Item received update or
+    Item Door2_Change_Item received update
+then
+    var Number changeVal = 0
+    if (triggeringItem.state != NULL && triggeringItem.state != UNDEF) {
+        changeVal = triggeringItem.state as Number
+    }
+
+    var Number currentCount = Total_Room_Occupancy.state as Number
+    if (Total_Room_Occupancy.state == NULL || Total_Room_Occupancy.state == UNDEF) {
+        currentCount = 0
+    }
+
+    var Number newCount = currentCount + changeVal
+    if (newCount < 0) {
+        newCount = 0
+    }
+
+    logInfo("OccupancyRule", "Door update received. Change: " + changeVal + " -> New Total: " + newCount)
+    Total_Room_Occupancy.postUpdate(newCount)
+end
+
+rule "Reset Occupancy Switch"
+when
+    Item Reset_Occupancy_Switch received command ON
+then
+    logInfo("OccupancyRule", "Manual reset triggered via Switch.")
+    Total_Room_Occupancy.postUpdate(0)
+    Reset_Occupancy_Switch.postUpdate(OFF)
+end
+
+rule "Manual Occupancy Override"
+when
+    Item Manual_Occupancy_Override received command
+then
+    var Number overrideVal = receivedCommand as Number
+    logInfo("OccupancyRule", "Manual override set count to: " + overrideVal)
+    Total_Room_Occupancy.postUpdate(overrideVal)
+end
