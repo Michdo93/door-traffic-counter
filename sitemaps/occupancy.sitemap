@@ -1,0 +1,15 @@
+sitemap occupancy label="Room Occupancy Control" {
+    Frame label="Current Status" {
+        Text item=Total_Room_Occupancy label="People in Room [%d]" icon="presence"
+    }
+
+    Frame label="Manual Corrections" {
+        Switch item=Reset_Occupancy_Switch label="Reset Count" mappings=[ON="Reset"]
+        Setpoint item=Manual_Occupancy_Override label="Set People Count [%d]" minValue=0 maxValue=50 step=1
+    }
+
+    Frame label="Live Sensor Stream" {
+        Text item=Door1_Change_Item label="Last Event Door 1 [%d]"
+        Text item=Door2_Change_Item label="Last Event Door 2 [%d]"
+    }
+}
