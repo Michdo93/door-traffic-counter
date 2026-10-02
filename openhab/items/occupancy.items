@@ -1,0 +1,10 @@
+// Bound Channels
+Number Door1_Change_Item "Door 1 Change [%d]" { channel="mqtt:topic:door1Counter:change" }
+Number Door2_Change_Item "Door 2 Change [%d]" { channel="mqtt:topic:door2Counter:change" }
+
+// Aggregated Total Occupancy
+Number Total_Room_Occupancy "Total People in Room [%d]" <group>
+
+// Manual UI Controls
+Switch Reset_Occupancy_Switch "Reset Count to Zero" <switch>
+Number Manual_Occupancy_Override "Set Count Directly [%d]" <numeric>
